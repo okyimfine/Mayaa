@@ -1,0 +1,1398 @@
+body {
+    margin: 0;
+    font-family: 'Quicksand', sans-serif;
+    display: flex;
+    flex-direction: column; /* Menggunakan column agar konten bisa di-scroll */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Memastikan body setidaknya setinggi viewport */
+    background: linear-gradient(135deg, #f7e1e6 0%, #ffe9f2 100%);
+    /* overflow: hidden; <--- BARIS INI SUDAH DIHAPUS UNTUK MEMUNGKINKAN SCROLL */
+    color: #555;
+    animation: backgroundAnimation 20s infinite alternate; /* Animasi latar belakang */
+    padding: 20px 0; /* Tambahkan padding agar ada ruang di atas/bawah saat di-scroll */
+    box-sizing: border-box; /* Memastikan padding tidak menambah lebar/tinggi di luar kontrol */
+}
+
+@keyframes backgroundAnimation {
+    0% { background: linear-gradient(135deg, #f7e1e6, #ffe9f2); }
+    25% { background: linear-gradient(135deg, #fce5ef, #fff0f7); }
+    50% { background: linear-gradient(135deg, #ffe9f2, #f7e1e6); }
+    75% { background: linear-gradient(135deg, #fff0f7, #fce5ef); }
+    100% { background: linear-gradient(135deg, #f7e1e6, #ffe9f2); }
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 40px 50px;
+    border-radius: 25px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+    overflow: hidden; /* Tetap pertahankan overflow hidden di container untuk animasi partikel internal */
+    margin: 20px auto; /* Tambahkan margin vertikal agar ada ruang saat di-scroll */
+    flex-shrink: 0; /* Mencegah container menyusut terlalu kecil */
+}
+
+/* Partikel mengambang di latar belakang container */
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #ffd1e0 10%, transparent 10%) 0 0 / 20px 20px,
+                radial-gradient(circle, #e0f7fa 10%, transparent 10%) 10px 10px / 20px 20px;
+    opacity: 0.3;
+    animation: particleFlow 40s infinite linear;
+    pointer-events: none; /* Pastikan partikel tidak bisa diklik */
+}
+
+@keyframes particleFlow {
+    from {
+        transform: translate(0, 0);
+    }
+    to {
+        transform: translate(100px, 100px); /* Gerakan partikel */
+    }
+}
+
+
+.welcome-text {
+    font-family: 'Pacifico', cursive;
+    font-size: 3.5em;
+    color: #ff69b4; /* Hot Pink */
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    animation: fadeInScale 2s ease-out forwards; /* Animasi teks muncul */
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.message-box {
+    background-color: #fff0f7;
+    border: 3px solid #ffadd1;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+    animation: slideInUp 1.5s ease-out forwards 0.5s; /* Animasi box pesan */
+    opacity: 0; /* Awalnya sembunyikan */
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message {
+    font-size: 1.3em;
+    line-height: 1.6;
+    color: #444; /* Diubah jadi lebih gelap sedikit untuk kontras */
+    margin-bottom: 25px;
+    animation: typingEffect 3s steps(60, end) forwards 1.5s;
+    white-space: nowrap; /* Teks jadi satu baris, bisa di-scroll */
+    overflow-x: auto; /* Tambahkan scroll horizontal */
+    width: auto; /* Lebar otomatis, bisa melebihi kotak */
+    border-right: none; /* Kursor kedip dihilangkan */
+    padding-right: 10px; /* Sedikit ruang di kanan untuk scrollbar */
+    /* Untuk styling scrollbar di beberapa browser (opsional): */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+/* Menyembunyikan scrollbar di WebKit browsers (Chrome, Safari) */
+.message::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* Animasi typingEffect dan blinkCaret untuk teks multi-baris */
+/* Kita pastikan typingEffect hanya berlaku untuk tampilan awal */
+@keyframes typingEffect {
+    from { width: 0; }
+    to { width: 100%; } /* Ini akan membuat teks tampil sepenuhnya */
+}
+
+/* Kursor kedip dihilangkan agar tidak mengganggu wrapping teks */
+.message::after {
+    content: '';
+    display: inline-block;
+    width: 0; /* Atur lebar 0 agar tidak ada kursor yang mengganggu */
+    height: 1.2em;
+    background-color: transparent; /* Buat transparan */
+    animation: none; /* Hapus animasi kedip */
+}
+
+
+.cute-button {
+    background-color: #ff99cc; /* Pink lembut */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    animation: pulseButton 2s infinite ease-in-out; /* Animasi denyutan tombol */
+}
+
+.cute-button:hover {
+    background-color: #ff66aa;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cute-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes pulseButton {
+    0% { transform: scale(1); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); }
+    50% { transform: scale(1.05); box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25); }
+    100% { transform: scale(1); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); }
+}
+
+#cuteThingsContainer {
+    margin-top: 30px; /* Jarak antara tombol dan container gift */
+}
+
+.cute-thing {
+    transform: scale(0); /* Awalnya sembunyikan dengan scale 0 */
+    opacity: 0;
+    margin-bottom: 20px; /* Memberi jarak antar gift jika ada banyak */
+}
+
+.cute-thing.show {
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Transisi muncul */
+    transform: scale(1) rotate(0);
+    opacity: 1;
+    animation: bounceIn 0.8s forwards; /* Animasi memantul masuk */
+}
+
+.cute-thing.hide {
+    transition: all 0.4s ease-out; /* Transisi menghilang */
+    transform: scale(0.5); /* Kecilkan sedikit sebelum hilang */
+    opacity: 0;
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.1); opacity: 1; }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+.cute-gif {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    animation: floatEffect 3s infinite ease-in-out; /* Animasi mengambang */
+}
+
+@keyframes floatEffect {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+.cute-caption {
+    font-size: 1.1em;
+    color: #ff69b4;
+    margin-top: 15px;
+    font-weight: bold;
+    animation: rubberBand 1s forwards; /* Animasi karet */
+}
+
+@keyframes rubberBand {
+    from {
+        transform: scale3d(1, 1, 1);
+    }
+
+    30% {
+        transform: scale3d(1.25, 0.75, 1);
+    }
+
+    40% {
+        transform: scale3d(0.75, 1.25, 1);
+    }
+
+    50% {
+        transform: scale3d(1.15, 0.85, 1);
+    }
+
+    65% {
+        transform: scale3d(.95, 1.05, 1);
+    }
+
+    75% {
+        transform: scale3d(1.05, .95, 1);
+    }
+
+    to {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+
+/* Media Queries untuk Responsif */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px;
+    }
+    .welcome-text {
+        font-size: 2.5em;
+    }
+    .message {
+        font-size: 1em;
+    }
+    .cute-button {
+        padding: 12px 25px;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+        border-radius: 15px;
+    }
+    .welcome-text {
+        font-size: 2em;
+    }
+    .message {
+        font-size: 0.9em;
+    }
+    .cute-button {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+}
+
+    animation: slideInUp 1.5s ease-out forwards 0.5s; /* Animasi box pesan */
+    opacity: 0; /* Awalnya sembunyikan */
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message {
+    font-size: 1.3em;
+    line-height: 1.6;
+    color: #777;
+    margin-bottom: 25px;
+    animation: typingEffect 3s steps(60, end) forwards 1.5s; /* Animasi ketik */
+    overflow: hidden;
+    white-space: nowrap;
+    width: 0; /* Awalnya lebar 0 */
+    border-right: .15em solid #ff69b4; /* Cursor kedip */
+}
+
+@keyframes typingEffect {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+/* Animasi cursor kedip */
+.message::after {
+    content: '';
+    display: inline-block;
+    width: 0.15em;
+    height: 1.2em;
+    background-color: #ff69b4;
+    animation: blinkCaret .75s step-end infinite;
+}
+
+@keyframes blinkCaret {
+    from, to { border-color: transparent }
+    50% { border-color: #ff69b4; }
+}
+
+
+.cute-button {
+    background-color: #ff99cc; /* Pink lembut */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    animation: pulseButton 2s infinite ease-in-out; /* Animasi denyutan tombol */
+}
+
+.cute-button:hover {
+    background-color: #ff66aa;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cute-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes pulseButton {
+    0% { transform: scale(1); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); }
+    50% { transform: scale(1.05); box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25); }
+    100% { transform: scale(1); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); }
+}
+
+.cute-thing {
+    margin-top: 30px;
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Animasi bounce */
+    transform: scale(0); /* Awalnya sembunyikan dengan scale 0 */
+    opacity: 0;
+}
+
+.cute-thing.show {
+    transform: scale(1) rotate(0);
+body {
+    margin: 0;
+    font-family: 'Quicksand', sans-serif;
+    display: flex;
+    flex-direction: column; /* Menggunakan column agar konten bisa di-scroll */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Memastikan body setidaknya setinggi viewport */
+    background: linear-gradient(135deg, #f7e1e6 0%, #ffe9f2 100%);
+    /* overflow: hidden; <--- BARIS INI SUDAH DIHAPUS UNTUK MEMUNGKINKAN SCROLL BODY */
+    color: #555;
+    animation: backgroundAnimation 20s infinite alternate; /* Animasi latar belakang */
+    padding: 20px 0; /* Tambahkan padding agar ada ruang di atas/bawah saat di-scroll */
+    box-sizing: border-box; /* Memastikan padding tidak menambah lebar/tinggi di luar kontrol */
+}
+
+@keyframes backgroundAnimation {
+    0% { background: linear-gradient(135deg, #f7e1e6, #ffe9f2); }
+    25% { background: linear-gradient(135deg, #fce5ef, #fff0f7); }
+    50% { background: linear-gradient(135deg, #ffe9f2, #f7e1e6); }
+    75% { background: linear-gradient(135deg, #fff0f7, #fce5ef); }
+    100% { background: linear-gradient(135deg, #f7e1e6, #ffe9f2); }
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 40px 50px;
+    border-radius: 25px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+    overflow: hidden; /* Tetap pertahankan overflow hidden di container untuk animasi partikel internal */
+    margin: 20px auto; /* Tambahkan margin vertikal agar ada ruang saat di-scroll */
+    flex-shrink: 0; /* Mencegah container menyusut terlalu kecil */
+}
+
+/* Partikel mengambang di latar belakang container */
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #ffd1e0 10%, transparent 10%) 0 0 / 20px 20px,
+                radial-gradient(circle, #e0f7fa 10%, transparent 10%) 10px 10px / 20px 20px;
+    opacity: 0.3;
+    animation: particleFlow 40s infinite linear;
+    pointer-events: none; /* Pastikan partikel tidak bisa diklik */
+}
+
+@keyframes particleFlow {
+    from {
+        transform: translate(0, 0);
+    }
+    to {
+        transform: translate(100px, 100px); /* Gerakan partikel */
+    }
+}
+
+
+.welcome-text {
+    font-family: 'Pacifico', cursive;
+    font-size: 3.5em;
+    color: #ff69b4; /* Hot Pink */
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    animation: fadeInScale 2s ease-out forwards; /* Animasi teks muncul */
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.message-box {
+    background-color: #fff0f7;
+    border: 3px solid #ffadd1;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+    animation: slideInUp 1.5s ease-out forwards 0.5s; /* Animasi box pesan */
+    opacity: 0; /* Awalnya sembunyikan */
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message {
+    font-size: 1.3em;
+    line-height: 1.6;
+    color: #444; /* Diubah jadi lebih gelap sedikit untuk kontras */
+    margin-bottom: 25px;
+    animation: typingEffect 3s steps(60, end) forwards 1.5s;
+    white-space: normal; /* <--- KEMBALI KE INI: Teks otomatis turun baris */
+    overflow-x: hidden; /* <--- PASTI TIDAK ADA SCROLL HORIZONTAL */
+    overflow-y: auto; /* <--- Tambahkan ini agar bisa scroll vertikal jika teks sangat panjang */
+    max-height: 150px; /* <--- Opsional: Batasi tinggi kotak pesan dan tambahkan scroll vertikal jika perlu */
+    width: 100%; /* Pastikan lebar 100% dari parentnya */
+    border-right: none; /* Kursor kedip dihilangkan */
+    padding-right: 0; /* Hapus padding yang khusus untuk scroll horizontal */
+
+    /* Styling scrollbar di dalam .message (opsional) */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+/* Menyembunyikan scrollbar di WebKit browsers (Chrome, Safari) untuk .message */
+.message::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* Animasi typingEffect dan blinkCaret untuk teks multi-baris */
+@keyframes typingEffect {
+    from { width: 0; }
+    to { width: 100%; } /* Ini akan membuat teks tampil sepenuhnya */
+}
+
+/* Kursor kedip dihilangkan agar tidak mengganggu wrapping teks */
+.message::after {
+    content: '';
+    display: inline-block;
+    width: 0; /* Atur lebar 0 agar tidak ada kursor yang mengganggu */
+    height: 1.2em;
+    background-color: transparent; /* Buat transparan */
+    animation: none; /* Hapus animasi kedip */
+}
+
+
+.cute-button {
+    background-color: #ff99cc; /* Pink lembut */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    animation: pulseButton 2s infinite ease-in-out; /* Animasi denyutan tombol */
+}
+
+.cute-button:hover {
+    background-color: #ff66aa;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cute-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes pulseButton {
+    0% { transform: scale(1); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); }
+    50% { transform: scale(1.05); box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25); }
+    100% { transform: scale(1); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); }
+}
+
+#cuteThingsContainer {
+    margin-top: 30px; /* Jarak antara tombol dan container gift */
+}
+
+.cute-thing {
+    transform: scale(0); /* Awalnya sembunyikan dengan scale 0 */
+    opacity: 0;
+    margin-bottom: 20px; /* Memberi jarak antar gift jika ada banyak */
+}
+
+.cute-thing.show {
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Transisi muncul */
+    transform: scale(1) rotate(0);
+    opacity: 1;
+    animation: bounceIn 0.8s forwards; /* Animasi memantul masuk */
+}
+
+.cute-thing.hide {
+    transition: all 0.4s ease-out; /* Transisi menghilang */
+    transform: scale(0.5); /* Kecilkan sedikit sebelum hilang */
+    opacity: 0;
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.1); opacity: 1; }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+.cute-gif {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    animation: floatEffect 3s infinite ease-in-out; /* Animasi mengambang */
+}
+
+@keyframes floatEffect {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+.cute-caption {
+    font-size: 1.1em;
+    color: #ff69b4;
+    margin-top: 15px;
+    font-weight: bold;
+    animation: rubberBand 1s forwards; /* Animasi karet */
+}
+
+@keyframes rubberBand {
+    from {
+        transform: scale3d(1, 1, 1);
+    }
+
+    30% {
+        transform: scale3d(1.25, 0.75, 1);
+    }
+
+    40% {
+        transform: scale3d(0.75, 1.25, 1);
+    }
+
+    50% {
+        transform: scale3d(1.15, 0.85, 1);
+    }
+
+    65% {
+        transform: scale3d(.95, 1.05, 1);
+    }
+
+    75% {
+        transform: scale3d(1.05, .95, 1);
+    }
+
+    to {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+
+/* Media Queries untuk Responsif */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px;
+    }
+    .welcome-text {
+        font-size: 2.5em;
+    }
+    .message {
+        font-size: 1em;
+    }
+    .cute-button {
+        padding: 12px 25px;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+        border-radius: 15px;
+    }
+    .welcome-text {
+        font-size: 2em;
+    }
+    .message {
+        font-size: 0.9em;
+    }
+    .cute-button {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+}
+
+    to {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+
+/* Media Queries untuk Responsif */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px;
+    }
+    .welcome-text {
+        font-size: 2.5em;
+    }
+    .message {
+        font-size: 1em;
+    }
+    .cute-button {
+        padding: 12px 25px;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+        border-radius: 15px;
+    }
+    .welcome-text {
+        font-size: 2em;
+    }
+    .message {
+        font-size: 0.9em;
+body {
+    margin: 0;
+    font-family: 'Quicksand', sans-serif;
+    display: flex;
+    flex-direction: column; /* Menggunakan column agar konten bisa di-scroll */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Memastikan body setidaknya setinggi viewport */
+    background: linear-gradient(135deg, #f7e1e6 0%, #ffe9f2 100%);
+    /* overflow: hidden; <--- BARIS INI SUDAH DIHAPUS UNTUK MEMUNGKINKAN SCROLL */
+    color: #555;
+    animation: backgroundAnimation 20s infinite alternate; /* Animasi latar belakang */
+    padding: 20px 0; /* Tambahkan padding agar ada ruang di atas/bawah saat di-scroll */
+    box-sizing: border-box; /* Memastikan padding tidak menambah lebar/tinggi di luar kontrol */
+}
+
+@keyframes backgroundAnimation {
+    0% { background: linear-gradient(135deg, #f7e1e6, #ffe9f2); }
+    25% { background: linear-gradient(135deg, #fce5ef, #fff0f7); }
+    50% { background: linear-gradient(135deg, #ffe9f2, #f7e1e6); }
+    75% { background: linear-gradient(135deg, #fff0f7, #fce5ef); }
+    100% { background: linear-gradient(135deg, #f7e1e6, #ffe9f2); }
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 40px 50px;
+    border-radius: 25px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+    overflow: hidden; /* Tetap pertahankan overflow hidden di container untuk animasi partikel internal */
+    margin: 20px auto; /* Tambahkan margin vertikal agar ada ruang saat di-scroll */
+    flex-shrink: 0; /* Mencegah container menyusut terlalu kecil */
+}
+
+/* Partikel mengambang di latar belakang container */
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #ffd1e0 10%, transparent 10%) 0 0 / 20px 20px,
+                radial-gradient(circle, #e0f7fa 10%, transparent 10%) 10px 10px / 20px 20px;
+    opacity: 0.3;
+    animation: particleFlow 40s infinite linear;
+    pointer-events: none; /* Pastikan partikel tidak bisa diklik */
+}
+
+@keyframes particleFlow {
+    from {
+        transform: translate(0, 0);
+    }
+    to {
+        transform: translate(100px, 100px); /* Gerakan partikel */
+    }
+}
+
+
+.welcome-text {
+    font-family: 'Pacifico', cursive;
+    font-size: 3.5em;
+    color: #ff69b4; /* Hot Pink */
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    animation: fadeInScale 2s ease-out forwards; /* Animasi teks muncul */
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.message-box {
+    background-color: #fff0f7;
+    border: 3px solid #ffadd1;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+    animation: slideInUp 1.5s ease-out forwards 0.5s; /* Animasi box pesan */
+    opacity: 0; /* Awalnya sembunyikan */
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message {
+    font-size: 1.3em;
+    line-height: 1.6;
+    color: #444; /* Diubah jadi lebih gelap sedikit untuk kontras */
+    margin-bottom: 25px;
+    animation: typingEffect 3s steps(60, end) forwards 1.5s;
+    /* overflow: hidden; <--- Ini dihapus karena teks akan wrap normal */
+    white-space: normal; /* <--- UBAH KE INI agar teks bisa turun baris */
+    width: 100%; /* Pastikan lebar 100% setelah animasi typing */
+    border-right: none; /* Kursor kedip bisa dihilangkan jika teks sudah penuh */
+}
+
+/* Animasi typingEffect dan blinkCaret untuk teks multi-baris */
+/* Kita pastikan typingEffect hanya berlaku untuk tampilan awal */
+@keyframes typingEffect {
+    from { width: 0; }
+    to { width: 100%; } /* Ini akan membuat teks tampil sepenuhnya */
+}
+
+/* Kursor kedip dihilangkan agar tidak mengganggu wrapping teks */
+.message::after {
+    content: '';
+    display: inline-block;
+    width: 0; /* Atur lebar 0 agar tidak ada kursor yang mengganggu */
+    height: 1.2em;
+    background-color: transparent; /* Buat transparan */
+    animation: none; /* Hapus animasi kedip */
+}
+
+
+.cute-button {
+    background-color: #ff99cc; /* Pink lembut */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    animation: pulseButton 2s infinite ease-in-out; /* Animasi denyutan tombol */
+}
+
+.cute-button:hover {
+    background-color: #ff66aa;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cute-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes pulseButton {
+    0% { transform: scale(1); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); }
+    50% { transform: scale(1.05); box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25); }
+    100% { transform: scale(1); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); }
+}
+
+#cuteThingsContainer {
+    margin-top: 30px; /* Jarak antara tombol dan container gift */
+}
+
+.cute-thing {
+    /* transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55); <--- Transisi ini dipindahkan ke .show */
+    transform: scale(0); /* Awalnya sembunyikan dengan scale 0 */
+    opacity: 0;
+    margin-bottom: 20px; /* Memberi jarak antar gift jika ada banyak */
+}
+
+.cute-thing.show {
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Transisi muncul */
+    transform: scale(1) rotate(0);
+    opacity: 1;
+    animation: bounceIn 0.8s forwards; /* Animasi memantul masuk */
+}
+
+.cute-thing.hide {
+    transition: all 0.4s ease-out; /* Transisi menghilang */
+    transform: scale(0.5); /* Kecilkan sedikit sebelum hilang */
+    opacity: 0;
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.1); opacity: 1; }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+.cute-gif {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    animation: floatEffect 3s infinite ease-in-out; /* Animasi mengambang */
+}
+
+@keyframes floatEffect {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+.cute-caption {
+    font-size: 1.1em;
+    color: #ff69b4;
+    margin-top: 15px;
+    font-weight: bold;
+    animation: rubberBand 1s forwards; /* Animasi karet */
+}
+
+@keyframes rubberBand {
+    from {
+        transform: scale3d(1, 1, 1);
+    }
+
+    30% {
+        transform: scale3d(1.25, 0.75, 1);
+    }
+
+    40% {
+        transform: scale3d(0.75, 1.25, 1);
+    }
+
+    50% {
+        transform: scale3d(1.15, 0.85, 1);
+    }
+
+    65% {
+        transform: scale3d(.95, 1.05, 1);
+    }
+
+    75% {
+        transform: scale3d(1.05, .95, 1);
+    }
+
+    to {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+
+/* Media Queries untuk Responsif */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px;
+    }
+    .welcome-text {
+        font-size: 2.5em;
+    }
+    .message {
+        font-size: 1em;
+    }
+    .cute-button {
+        padding: 12px 25px;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+        border-radius: 15px;
+    }
+    .welcome-text {
+        font-size: 2em;
+    }
+    .message {
+        font-size: 0.9em;
+    }
+    .cute-button {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+}
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.message-box {
+    background-color: #fff0f7;
+    border: 3px solid #ffadd1;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+    animation: slideInUp 1.5s ease-out forwards 0.5s; /* Animasi box pesan */
+    opacity: 0; /* Awalnya sembunyikan */
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message {
+body {
+    margin: 0;
+    font-family: 'Quicksand', sans-serif;
+    display: flex;
+    flex-direction: column; /* Menggunakan column agar konten bisa di-scroll */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Memastikan body setidaknya setinggi viewport */
+    background: linear-gradient(135deg, #f7e1e6 0%, #ffe9f2 100%);
+    /* overflow: hidden; <--- BARIS INI SUDAH DIHAPUS UNTUK MEMUNGKINKAN SCROLL */
+    color: #555;
+    animation: backgroundAnimation 20s infinite alternate; /* Animasi latar belakang */
+    padding: 20px 0; /* Tambahkan padding agar ada ruang di atas/bawah saat di-scroll */
+    box-sizing: border-box; /* Memastikan padding tidak menambah lebar/tinggi di luar kontrol */
+}
+
+@keyframes backgroundAnimation {
+    0% { background: linear-gradient(135deg, #f7e1e6, #ffe9f2); }
+    25% { background: linear-gradient(135deg, #fce5ef, #fff0f7); }
+    50% { background: linear-gradient(135deg, #ffe9f2, #f7e1e6); }
+    75% { background: linear-gradient(135deg, #fff0f7, #fce5ef); }
+    100% { background: linear-gradient(135deg, #f7e1e6, #ffe9f2); }
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 40px 50px;
+    border-radius: 25px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+    overflow: hidden; /* Tetap pertahankan overflow hidden di container untuk animasi partikel internal */
+    margin: 20px auto; /* Tambahkan margin vertikal agar ada ruang saat di-scroll */
+    flex-shrink: 0; /* Mencegah container menyusut terlalu kecil */
+}
+
+/* Partikel mengambang di latar belakang container */
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #ffd1e0 10%, transparent 10%) 0 0 / 20px 20px,
+                radial-gradient(circle, #e0f7fa 10%, transparent 10%) 10px 10px / 20px 20px;
+    opacity: 0.3;
+    animation: particleFlow 40s infinite linear;
+    pointer-events: none; /* Pastikan partikel tidak bisa diklik */
+}
+
+@keyframes particleFlow {
+    from {
+        transform: translate(0, 0);
+    }
+    to {
+        transform: translate(100px, 100px); /* Gerakan partikel */
+    }
+}
+
+
+.welcome-text {
+    font-family: 'Pacifico', cursive;
+    font-size: 3.5em;
+    color: #ff69b4; /* Hot Pink */
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    animation: fadeInScale 2s ease-out forwards; /* Animasi teks muncul */
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.message-box {
+    background-color: #fff0f7;
+    border: 3px solid #ffadd1;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+    animation: slideInUp 1.5s ease-out forwards 0.5s; /* Animasi box pesan */
+    opacity: 0; /* Awalnya sembunyikan */
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message {
+    font-size: 1.3em;
+    line-height: 1.6;
+    color: #444; /* Diubah jadi lebih gelap sedikit untuk kontras */
+    margin-bottom: 25px;
+    animation: typingEffect 3s steps(60, end) forwards 1.5s;
+    white-space: nowrap; /* Teks jadi satu baris, bisa di-scroll */
+    overflow-x: auto; /* Tambahkan scroll horizontal */
+    width: auto; /* Lebar otomatis, bisa melebihi kotak */
+    border-right: none; /* Kursor kedip dihilangkan */
+    padding-right: 10px; /* Sedikit ruang di kanan untuk scrollbar */
+    /* Untuk styling scrollbar di beberapa browser (opsional): */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+/* Menyembunyikan scrollbar di WebKit browsers (Chrome, Safari) */
+.message::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* Animasi typingEffect dan blinkCaret untuk teks multi-baris */
+/* Kita pastikan typingEffect hanya berlaku untuk tampilan awal */
+@keyframes typingEffect {
+    from { width: 0; }
+    to { width: 100%; } /* Ini akan membuat teks tampil sepenuhnya */
+}
+
+/* Kursor kedip dihilangkan agar tidak mengganggu wrapping teks */
+.message::after {
+    content: '';
+    display: inline-block;
+    width: 0; /* Atur lebar 0 agar tidak ada kursor yang mengganggu */
+    height: 1.2em;
+    background-color: transparent; /* Buat transparan */
+    animation: none; /* Hapus animasi kedip */
+}
+
+
+.cute-button {
+    background-color: #ff99cc; /* Pink lembut */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    animation: pulseButton 2s infinite ease-in-out; /* Animasi denyutan tombol */
+}
+
+.cute-button:hover {
+    background-color: #ff66aa;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cute-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes pulseButton {
+    0% { transform: scale(1); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); }
+    50% { transform: scale(1.05); box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25); }
+    100% { transform: scale(1); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); }
+}
+
+#cuteThingsContainer {
+    margin-top: 30px; /* Jarak antara tombol dan container gift */
+}
+
+.cute-thing {
+    transform: scale(0); /* Awalnya sembunyikan dengan scale 0 */
+    opacity: 0;
+    margin-bottom: 20px; /* Memberi jarak antar gift jika ada banyak */
+}
+
+.cute-thing.show {
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Transisi muncul */
+    transform: scale(1) rotate(0);
+    opacity: 1;
+    animation: bounceIn 0.8s forwards; /* Animasi memantul masuk */
+}
+
+.cute-thing.hide {
+    transition: all 0.4s ease-out; /* Transisi menghilang */
+    transform: scale(0.5); /* Kecilkan sedikit sebelum hilang */
+    opacity: 0;
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.1); opacity: 1; }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+.cute-gif {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    animation: floatEffect 3s infinite ease-in-out; /* Animasi mengambang */
+}
+
+@keyframes floatEffect {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+.cute-caption {
+    font-size: 1.1em;
+    color: #ff69b4;
+    margin-top: 15px;
+    font-weight: bold;
+    animation: rubberBand 1s forwards; /* Animasi karet */
+}
+
+@keyframes rubberBand {
+    from {
+        transform: scale3d(1, 1, 1);
+    }
+
+    30% {
+        transform: scale3d(1.25, 0.75, 1);
+    }
+
+    40% {
+        transform: scale3d(0.75, 1.25, 1);
+    }
+
+    50% {
+        transform: scale3d(1.15, 0.85, 1);
+    }
+
+    65% {
+        transform: scale3d(.95, 1.05, 1);
+    }
+
+    75% {
+        transform: scale3d(1.05, .95, 1);
+    }
+
+    to {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+
+/* Media Queries untuk Responsif */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px;
+    }
+    .welcome-text {
+        font-size: 2.5em;
+    }
+    .message {
+        font-size: 1em;
+    }
+    .cute-button {
+        padding: 12px 25px;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+        border-radius: 15px;
+    }
+    .welcome-text {
+        font-size: 2em;
+    }
+    .message {
+        font-size: 0.9em;
+    }
+    .cute-button {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+}
+
+.cute-gif {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    animation: floatEffect 3s infinite ease-in-out; /* Animasi mengambang */
+}
+
+@keyframes floatEffect {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+.cute-caption {
+    font-size: 1.1em;
+    color: #ff69b4;
+    margin-top: 15px;
+    font-weight: bold;
+    animation: rubberBand 1s forwards; /* Animasi karet */
+}
+
+@keyframes rubberBand {
+    from {
+        transform: scale3d(1, 1, 1);
+    }
+
+    30% {
+        transform: scale3d(1.25, 0.75, 1);
+    }
+
+    40% {
+        transform: scale3d(0.75, 1.25, 1);
+    }
+
+    50% {
+        transform: scale3d(1.15, 0.85, 1);
+    }
+
+    65% {
+        transform: scale3d(.95, 1.05, 1);
+    }
+
+    75% {
+        transform: scale3d(1.05, .95, 1);
+    }
+
+    to {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+
+/* Media Queries untuk Responsif */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px;
+    }
+    .welcome-text {
+        font-size: 2.5em;
+    }
+    .message {
+        font-size: 1em;
+    }
+    .cute-button {
+        padding: 12px 25px;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+        border-radius: 15px;
+    }
+    .welcome-text {
+        font-size: 2em;
+    }
+    .message {
+        font-size: 0.9em;
+    }
+    .cute-button {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+}
